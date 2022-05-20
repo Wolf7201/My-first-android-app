@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         Log.d("Mylog", "onCreate")
 
         pref = getSharedPreferences("TABLE", Context.MODE_PRIVATE)
-        count = pref?.getInt("count", 1)!!
+        count = pref?.getInt("count", 0)!!
 
         val textView = findViewById<TextView>(R.id.textView)
         textView.text = count.toString()
@@ -40,9 +40,23 @@ class MainActivity : AppCompatActivity() {
         editor?.apply()
     }
 
+    fun deleteAll(){
+        val editor = pref?.edit()
+        editor?.clear()
+        editor?.apply()
+    }
+
+
     override fun onDestroy() {
         super.onDestroy()
         Log.d("Mylog", "onDestroy")
         saveData(count)
+    }
+
+    fun onClickDel(view: View) {
+        count = 0
+        deleteAll()
+        val textView = findViewById<TextView>(R.id.textView)
+        textView.text = count.toString()
     }
 }
